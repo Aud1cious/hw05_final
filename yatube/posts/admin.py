@@ -13,16 +13,16 @@ class PostAdmin(admin.ModelAdmin):
 class GroupAdmin(admin.ModelAdmin):
     list_display = ("title", "slug", "description")
 
+
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = (
-        'post',
-        'text',
-        'author',
-        'created',
+        "post",
+        "text",
+        "author",
+        "created",
     )
-    search_fields = ('text',)
-
+    search_fields = ("text",)
 
 
 admin.site.register(Post, PostAdmin)

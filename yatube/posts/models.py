@@ -38,13 +38,8 @@ class Post(models.Model):
         related_name="post",
         help_text="Имя группы",
     )
-    
 
-    image = models.ImageField(
-        'Картинка',
-        upload_to='posts/',
-        blank=True
-    )  
+    image = models.ImageField("Картинка", upload_to="posts/", blank=True)
 
     fields = ("text", "group", "image")
 
@@ -54,32 +49,37 @@ class Post(models.Model):
     def __str__(self):
         return self.text[:15]
 
+
 class Comment(models.Model):
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
-        related_name='comments',
-        blank=True, null=True)
+        related_name="comments",
+        blank=True,
+        null=True,
+    )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='comments',
-        blank=True, null=True
+        related_name="comments",
+        blank=True,
+        null=True,
     )
     created = models.DateTimeField(auto_now_add=True)
-    text = models.TextField(help_text='Изложите свою точку зрения')
+    text = models.TextField(help_text="Изложите свою точку зрения")
 
     def __str__(self):
         return self.text
 
+
 class Follow(models.Model):
     user = models.ForeignKey(
         User,
-        related_name='follower',
+        related_name="follower",
         on_delete=models.CASCADE,
     )
     author = models.ForeignKey(
         User,
-        related_name='following',
+        related_name="following",
         on_delete=models.CASCADE,
     )

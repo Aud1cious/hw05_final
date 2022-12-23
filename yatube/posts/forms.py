@@ -15,13 +15,14 @@ class PostForm(forms.ModelForm):
         fields = model.fields
         labels = {"group": "Выберите группу"}
 
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('text',)
+        fields = ("text",)
         labels = {
-            'text': 'Тект комментария',
+            "text": "Тект комментария",
         }
         help_texts = {
-            'text': 'Введите текст вашего комментария',
+            "text": "Введите текст вашего комментария",
         }
