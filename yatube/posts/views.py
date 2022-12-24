@@ -9,7 +9,6 @@ from .models import Post, Group, User, Follow
 
 def paginator_func(posts, request):
     paginator = Paginator(posts, settings.NUM_POSTS_PER_PAGE)
-    print("REQUEST IN PAGINATOR", request)
     page_number = request.GET.get("page")
     return paginator.get_page(page_number)
 
@@ -33,7 +32,19 @@ def profile(request, username):
     author = get_object_or_404(User, username=username)
     author_posts = author.posts.all()
     page_obj = paginator_func(author_posts, request)
-    context = {"page_obj": page_obj, "author": author}
+    followers_count = Follow.objects.filter(author=author).count()
+    follow_count = Follow.objects.filter(user=author).count()
+    following = (
+        request.user.is_authenticated
+        and Follow.objects.filter(user=request.user, author=author).exists()
+    )
+    context = {
+        "page_obj": page_obj,
+        "author": author,
+        "following": following,
+        "followers_count": followers_count,
+        "follow_count": follow_count,
+    }
     return render(request, "posts/profile.html", context)
 
 
@@ -104,7 +115,6 @@ def add_comment(request, post_id):
 
 @login_required
 def follow_index(request):
-    print("follw_index request")
     post_list = Post.objects.filter(
         author__following__user=request.user
     ).all()

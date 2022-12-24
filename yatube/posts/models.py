@@ -6,9 +6,11 @@ User = get_user_model()
 
 class Group(models.Model):
     title = models.CharField(
+        verbose_name="Название группы",
         max_length=200,
     )
     slug = models.SlugField(
+        verbose_name="Слаг",
         unique=True,
     )
     description = models.TextField()
@@ -83,3 +85,8 @@ class Follow(models.Model):
         related_name="following",
         on_delete=models.CASCADE,
     )
+    class Meta:
+        constraints = (
+            models.UniqueConstraint(fields=['user', 'author'],
+                                    name='unique_follow'),
+        )
